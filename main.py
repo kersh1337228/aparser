@@ -13,6 +13,10 @@ headers = {
     'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36',
 }
+params = {
+    'count': '100',
+    'scrIds': 'day_gainers',
+}
 
 
 def parse_result_handle(response):
@@ -23,7 +27,7 @@ def parse_result_handle(response):
 # Coroutine where single page is being parsed
 async def parse_coroutine(page: int, session: aiohttp.ClientSession) -> list:
     # Sending http get request and serializing the response
-    async with session.get(f'{url}&page={page}', headers=headers) as response:
+    async with session.get(f'{url}&page={page}',headers=headers, params=params) as response:
         # Handling parsed data here
         html = BeautifulSoup(await response.text(), 'html.parser')
         items = html.find_all('some', class_='some_class')
